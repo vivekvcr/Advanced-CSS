@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced CSS Animations Demo</title>
+    <style>
+        /* Base styles with performance optimizations */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 2rem;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+        
+        p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #2d3748;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        
+        /* Use will-change sparingly for better performance */
+        
+        /* 1. Basic Transitions Demo */
+        .transition-demo {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .transition-box {
+            width: 100px;
+            height: 100px;
+            background-color: #4299e1;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .transition-color {
+            transition: background-color 0.3s ease;
+        }
+        
+        .transition-color:hover {
+            background-color: #2b6cb0;
+        }
+        
+        .transition-size {
+            transition: transform 0.3s ease;
+        }
+        
+        .transition-size:hover {
+            transform: scale(1.1);
+        }
+        
+        .transition-rotate {
+            transition: transform 0.5s ease;
+        }
+        
+        .transition-rotate:hover {
+            transform: rotate(45deg);
+        }
+        
+        .transition-multiple {
+            transition: background-color 0.3s ease, transform 0.5s ease;
+        }
+        
+        .transition-multiple:hover {
+            background-color: #2b6cb0;
+            transform: scale(1.1) rotate(10deg);
+        }
+        
+        /* 2. Transform Showcase */
+        .transform-demo {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .transform-box {
+            width: 100px;
+            height: 100px;
+            background-color: #ed8936;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .transform-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .transform-scale {
+            transform: scale(1.2);
+        }
+        
+        .transform-rotate {
+            transform: rotate(45deg);
+        }
+        
+        .transform-skew {
+            transform: skew(15deg, 10deg);
+        }
+        
+        .transform-translate {
+            transform: translate(10px, -10px);
+        }
+        
+        .transform-origin-demo {
+            transform-origin: bottom right;
+            transform: rotate(30deg);
+        }
+        
+        /* 3. Advanced Animation Demo */
+        .animation-demo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .animation-card {
+            width: 150px;
+            height: 150px;
+            background-color: #9f7aea;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Using hardware-accelerated properties */
+        .bounce-animation {
+            animation: bounce 2s infinite;
+            /* Only use will-change when absolutely necessary */
+            will-change: transform;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .rotate-animation {
+            animation: rotate 4s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .wave-animation {
+            position: relative;
+        }
+        
+        .wave-animation::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            animation: wave 2s infinite linear;
+            z-index: 1;
+        }
+        
+        @keyframes wave {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(200%);
+            }
+        }
+        
+        /* 4. Cubic Bezier & Timing Functions */
+        .timing-demo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .timing-box {
+            width: 80px;
+            height: 80px;
+            background-color: #4fd1c5;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .timing-linear {
+            transition: transform 1s linear;
+        }
+        
+        .timing-ease {
+            transition: transform 1s ease;
+        }
+        
+        .timing-ease-in {
+            transition: transform 1s ease-in;
+        }
+        
+        .timing-ease-out {
+            transition: transform 1s ease-out;
+        }
+        
+        .timing-ease-in-out {
+            transition: transform 1s ease-in-out;
+        }
+        
+        .timing-cubic {
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        
+        .timing-demo .timing-box:hover {
+            transform: translateX(50px);
+        }
+        
+        /* 5. Practical Applications */
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .card {
+            width: 250px;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-image {
+            height: 150px;
+            background-color: #667eea;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+        
+        .card-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #667eea;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .card-button:hover {
+            background-color: #5a67d8;
+        }
+        
+        /* Hamburger Menu Animation */
+        .hamburger {
+            width: 40px;
+            height: 24px;
+            position: relative;
+            cursor: pointer;
+            margin: 2rem auto;
+        }
+        
+        .hamburger span {
+            display: block;
+            position: absolute;
+            height: 4px;
+            width: 100%;
+            background: #2d3748;
+            border-radius: 4px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+        
+        .hamburger span:nth-child(1) {
+            top: 0px;
+        }
+        
+        .hamburger span:nth-child(2),
+        .hamburger span:nth-child(3) {
+            top: 10px;
+        }
+        
+        .hamburger span:nth-child(4) {
+            top: 20px;
+        }
+        
+        .hamburger.open span:nth-child(1) {
+            top: 10px;
+            width: 0%;
+            left: 50%;
+        }
+        
+        .hamburger.open span:nth-child(2) {
+            transform: rotate(45deg);
+        }
+        
+        .hamburger.open span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+        
+        .hamburger.open span:nth-child(4) {
+            top: 10px;
+            width: 0%;
+            left: 50%;
+        }
+        
+        /* Performance Tips Section */
+        .performance-tips {
+            margin-top: 3rem;
+            background-color: #ebf8ff;
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 5px solid #4299e1;
+        }
+        
+        .tips-list {
+            margin-left: 1.5rem;
+        }
+        
+        .tips-list li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Modal Animation */
+        .modal-trigger {
+            padding: 0.75rem 1.5rem;
+            background-color: #4299e1;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .modal-trigger:hover {
+            background-color: #3182ce;
+        }
+        
+        .modal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+        
+        .modal-container.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            transform: translateY(-50px);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-container.show .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Advanced CSS Animations Demo</h1>
+            <p>A showcase of performant CSS transitions and transforms with minimal file size</p>
+        </header>
+        
+        <section class="demo-section">
+            <h2>1. CSS Transitions</h2>
+            <p>Hover over each box to see different transition effects.</p>
+            <div class="transition-demo">
+                <div class="transition-box transition-color">Color</div>
+                <div class="transition-box transition-size">Scale</div>
+                <div class="transition-box transition-rotate">Rotate</div>
+                <div class="transition-box transition-multiple">Multiple</div>
+            </div>
+        </section>
+        
+        <section class="demo-section">
+            <h2>2. CSS Transforms</h2>
+            <div class="transform-demo">
+                <div class="transform-container">
+                    <div class="transform-box transform-scale">Scale</div>
+                    <p>scale(1.2)</p>
+                </div>
+                <div class="transform-container">
+                    <div class="transform-box transform-rotate">Rotate</div>
+                    <p>rotate(45deg)</p>
+                </div>
+                <div class="transform-container">
+                    <div class="transform-box transform-skew">Skew</div>
+                    <p>skew(15deg, 10deg)</p>
+                </div>
+                <div class="transform-container">
+                    <div class="transform-box transform-translate">Translate</div>
+                    <p>translate(10px, -10px)</p>
+                </div>
+                <div class="transform-container">
+                    <div class="transform-box transform-origin-demo">Origin</div>
+                    <p>transform-origin: bottom right</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="demo-section">
+            <h2>3. CSS Animations</h2>
+            <div class="animation-demo">
+                <div class="animation-card bounce-animation">Bounce</div>
+                <div class="animation-card pulse-animation">Pulse</div>
+                <div class="animation-card rotate-animation">Rotate</div>
+                <div class="animation-card wave-animation">Wave</div>
+            </div>
+        </section>
+        
+        <section class="demo-section">
+            <h2>4. Timing Functions</h2>
+            <p>Hover over each box to see how different timing functions affect the animation.</p>
+            <div class="timing-demo">
+                <div class="timing-box timing-linear">Linear</div>
+                <div class="timing-box timing-ease">Ease</div>
+                <div class="timing-box timing-ease-in">Ease-in</div>
+                <div class="timing-box timing-ease-out">Ease-out</div>
+                <div class="timing-box timing-ease-in-out" style=" padding: 0 10px; ">Ease-in-out</div>
+                <div class="timing-box timing-cubic">Custom</div>
+            </div>
+        </section>
+        
+        <section class="demo-section">
+            <h2>5. Practical Applications</h2>
+            
+            <h3 style="margin: 1.5rem 0 1rem;">Card Hover Effects</h3>
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <h3 class="card-title">Card Title</h3>
+                        <p>This card demonstrates smooth hover transitions for better user experience.</p>
+                        <a href="#" class="card-button">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <h3 class="card-title">Card Title</h3>
+                        <p>Subtle animations enhance user interaction without being distracting.</p>
+                        <a href="#" class="card-button">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="margin: 2rem 0 1rem;">Hamburger Menu Animation</h3>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <h3 style="margin: 2rem 0 1rem;">Modal Animation</h3>
+            <button class="modal-trigger">Open Modal</button>
+            <div class="modal-container">
+                <div class="modal-content">
+                    <h3>Modal Title</h3>
+                    <p>This modal uses CSS transitions for smooth entrance and exit animations. The background fade and content slide are synchronized for a polished effect.</p>
+                    <button class="modal-close">×</button>
+                </div>
+            </div>
+        </section>
+        
+        <section class="performance-tips">
+            <h2>Performance Optimization Tips</h2>
+            <ul class="tips-list">
+                <li><strong>Use transform and opacity</strong> for animations when possible as they don't trigger layout recalculations.</li>
+                <li><strong>Use will-change sparingly</strong> to hint the browser about elements that will animate.</li>
+                <li><strong>Avoid animating expensive properties</strong> like width, height, top, left, margin, or padding.</li>
+                <li><strong>Use hardware acceleration</strong> by leveraging transform: translateZ(0) or translate3d(0,0,0) when needed.</li>
+                <li><strong>Keep animations short</strong> and purposeful to avoid excessive CPU/GPU usage.</li>
+                <li><strong>Test on multiple devices</strong> to ensure smooth performance across different hardware capabilities.</li>
+                <li><strong>Minimize DOM complexity</strong> of animated elements.</li>
+            </ul>
+        </section>
+    </div>
+
+    <script>
+        // Simple JavaScript to demonstrate the interactions
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            this.classList.toggle('open');
+        });
+
+        // for PoPup
+        
+        document.querySelector('.modal-trigger').addEventListener('click', function() {
+            document.querySelector('.modal-container').classList.add('show');
+        });
+        
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            document.querySelector('.modal-container').classList.remove('show');
+        });
+        
+        document.querySelector('.modal-container').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
